@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rate Our App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>We Value Your Feedback!</h1>
+
+  <form action="/user/app-feedback" method="POST">
+    <label for="email">Your Email</label>
+    <input type="email" name="email" id="email" placeholder="you@example.com" required>
+
+    <label for="rating">Rate Our App</label>
+    <select name="rating" id="rating" required>
+      <option value="">Select Rating</option>
+      <option value="5">⭐️⭐️⭐️⭐️⭐️ - Excellent</option>
+      <option value="4">⭐️⭐️⭐️⭐️ - Good</option>
+      <option value="3">⭐️⭐️⭐️ - Okay</option>
+      <option value="2">⭐️⭐️ - Needs Improvement</option>
+      <option value="1">⭐️ - Very Bad</option>
+    </select>
+
+    <label for="feedback">Your Feedback</label>
+    <textarea name="feedback" id="feedback" rows="5" placeholder="Tell us what you think..." required></textarea>
+
+    <button type="submit">Submit Feedback</button>
+  </form>
+
+  <div class="back-link">
+    <a href="/user">⬅ Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

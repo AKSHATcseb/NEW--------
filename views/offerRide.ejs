@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Offer a Ride</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 550px;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 18px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background-color: #28a745;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Offer a Ride</h1>
+
+  <form action="/rides/offer" method="POST">
+    <label for="email">Your Email</label>
+    <input type="email" name="email" id="email" placeholder="your@email.com" required>
+
+    <label for="start">Starting Place</label>
+    <input type="text" name="start" id="start" placeholder="e.g. Delhi" required>
+
+    <label for="destination">Destination</label>
+    <input type="text" name="destination" id="destination" placeholder="e.g. Jaipur" required>
+
+    <label for="date">Ride Date</label>
+    <input type="date" name="date" id="date" required>
+
+    <label for="fare">Fare (in ₹)</label>
+    <input type="number" name="fare" id="fare" min="0" placeholder="e.g. 500" required>
+
+    <button type="submit">Offer Ride</button>
+  </form>
+
+  <div class="back-link">
+    <a href="/user">⬅ Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

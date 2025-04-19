@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+      background: #e6e6e6;
+      padding: 10px;
+      border-radius: 6px;
+    }
+    a {
+      text-decoration: none;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <h1>User Profile</h1>
+
+  <p><strong>Full Name:</strong> <%= user.fullname %></p>
+  <p><strong>Email:</strong> <%= user.email %></p>
+  <p><strong>Password:</strong> <%= user.password %></p>
+
+  <h2>Recent Rides</h2>
+  <% if (recentRides && recentRides.length > 0) { %>
+    <ul>
+      <% recentRides.forEach(ride => { %>
+        <li>
+          <strong>From:</strong> <%= ride.from %> | 
+          <strong>To:</strong> <%= ride.to %> |
+          <strong>Date:</strong> <%= ride.date %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No recent rides.</p>
+  <% } %>
+
+  <h2>Offered Rides</h2>
+  <% if (offeredRides && offeredRides.length > 0) { %>
+    <ul>
+      <% offeredRides.forEach(ride => { %>
+        <li>
+          <strong>From:</strong> <%= ride.from %> | 
+          <strong>To:</strong> <%= ride.to %> |
+          <strong>Seats:</strong> <%= ride.seats %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No rides offered.</p>
+  <% } %>
+
+  <br>
+  <a href="/users">⬅ Back to Dashboard</a>
+</body>
+</html>
+

@@ -141,19 +141,6 @@ const reviewRide = async function (req, res) {
 };
 
 
-
-
-// const cancelRide = async(req, res) => {
-
-// }
-
-// const cancelRide = (req, res) => res.send("Cancelling ride");
-// const offerRide = (req, res) => res.send("Offering ride");
-
-console.log("Imported controllerr functions:", {
-    bookRide,
-});
-
 module.exports = {
     bookRide,
     // cancelRide,

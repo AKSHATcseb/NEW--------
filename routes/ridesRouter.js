@@ -9,12 +9,23 @@ res.send("hey rides route is working");
 });
 
 
+router.get("/bookRide", (req, res) => {
+    res.render("bookRide");
+})
 router.post("/bookRide", bookRide);
-// router.post("/cancelRide",cancelRide);
+
+router.get("/offerRide", (req, res) => {
+    res.render("offerRide");
+})
 router.post("/offerRide", offerRide);
+
+// router.get("//:rideId/review", (req, res) => {
+    
+// })
 router.post("/:rideId/review", reviewRide);
 
 
 
+// router.post("/cancelRide",cancelRide);
 module.exports = router;
 

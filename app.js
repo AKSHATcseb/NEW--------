@@ -10,6 +10,7 @@ const path = require("path");
 
 const usersRouter = require("./routes/usersRouter");
 const ridesRouter = require("./routes/ridesRouter");
+const indexRouter = require("./routes/indexRouter");
 
 const db = require("./config/mongoose_connection");
 require("dotenv").config();
@@ -19,6 +20,7 @@ app.use(express.json());
 app. use(express.urlencoded({ extended: true }) );
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
 
 // session setup
 app.use(
@@ -33,6 +35,7 @@ app.use(
 
 app.use("/users", usersRouter);
 app.use("/rides", ridesRouter);
+app.use("/", indexRouter);
 
 
 // app.listen(3000);

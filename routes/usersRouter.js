@@ -4,18 +4,38 @@ const isloggedin = require("../middlewares/isLoggedIn");
 const {registerUser, loginUser, userProfile, logout, reviewApp, complaint} = require("../controllers/userController");
 
 
-router.get("/", function (req, res) {
-res.send("hey user route is working");
+router.get('/', (req, res) => {
+    res.render("user");
 });
 
-// issme try karna ye feature ke jab tak user saare info. nahi deta tab tak user register naa ho sake
+
+
+router.get('/register', (req, res) => {
+    res.render("register"); 
+});
 router.post("/register", registerUser);
+
+router.get('/login', (req, res) => {
+    res.render("login"); 
+});
 router.post("/login", loginUser);
-router.get("/profile", userProfile);
-router.get("/logout", logout);
+
+router.get('/profile', (req, res) => {
+    res.render("profile"); 
+});
+router.post("/profile", userProfile);
+
+router.get("/appReview", (req, res) => {
+    res.render("appFeedback");
+})
 router.post("/appReview", reviewApp);
+
+router.get("/complaint", (req, res) => {
+    res.render("complaint");
+});
 router.post("/complaint", complaint);
 
+router.get("/logout", logout);
 
 module.exports = router;
 

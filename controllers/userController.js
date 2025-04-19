@@ -11,6 +11,9 @@ const registerUser = async function (req, res) {
     try {
         const { fullname, email, password } = req.body;
 
+        const user = await userModel.findOne({ email: email });
+        if (user) return res.status(401).send("You already registered , You must login");
+
         if (!fullname || !email || !password) {
             return res.status(400).send("All fields required");
         }
@@ -25,7 +28,8 @@ const registerUser = async function (req, res) {
         });
 
         await newUser.save();
-        res.send("User registered successfully");
+        res.redirect("/users");
+        return res.status(200).send("Registered Successfully");
     } catch (err) {
         console.error("Registration error:", err);
         res.status(500).send("Something went wrong during registration");
@@ -41,22 +45,23 @@ const loginUser = async (req, res) => {
         const user = await userModel.findOne({ email });
         if (!user) return res.status(401).send("Email or password incorrect");
 
-        // console.log("Plain password from body:", password);
-        // console.log("Hashed password from DB:", user.password);
-
-        console.log("Password from req.body:", password);
-        console.log("User object from DB:", user);
-        console.log("User password from DB:", user?.password);
-
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log("Do passwords match?", isMatch);
-
         if (!isMatch) return res.status(401).send("Email or password incorrect");
 
-        // Fake token generation for example
+        // Set a dummy cookie (in production, use JWT)
         const token = "fake-jwt-token";
         res.cookie("token", token, { httpOnly: true });
-        return res.send("You are logged in");
+
+        // Dummy: Fetch recent and offered rides
+        const recentRides = await rideModel.find({ userId: user._id }).sort({ date: -1 }).limit(5);
+        const offeredRides = await rideModel.find({ offeredBy: user._id });
+
+        // Show profile page with user data
+        return res.render("profile", {
+            user,
+            recentRides,
+            offeredRides
+        });
     } catch (err) {
         console.error("Login error:", err);
         res.status(500).send("Internal Server Error");
@@ -64,17 +69,66 @@ const loginUser = async (req, res) => {
 };
 
 
+
+// const loginUser = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         if (!email || !password) return res.status(400).send("Missing credentials");
+
+//         const user = await userModel.findOne({ email });
+//         if (!user) return res.status(401).send("Email or password incorrect");
+
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         console.log("Do passwords match?", isMatch);
+
+//         if (!isMatch) return res.status(401).send("Email or password incorrect");
+
+//         // Fake token generation for example
+//         const token = "fake-jwt-token";
+//         res.cookie("token", token, { httpOnly: true });
+//         return res.send("You are logged in");
+//     } catch (err) {
+//         console.error("Login error:", err);
+//         res.status(500).send("Internal Server Error");
+//     }
+// };
+
+
 const userProfile = async (req, res, next) => {
+    // try {
+    //     const { email } = req.body;
+    //     if (!email) {
+    //         return res.status(400).json({ message: 'Email required.' });
+    //     }
+
+    //     // Don't use .lean() here to make sure password is included
+    //     const user = await userModel.findOne({ email });
+    //     if (!user) {
+    //         return res.status(401).json({ message: 'Invalid email' });
+    //     }
+
+    //     const recentRides = await rideModel.find({ user: user._id })
+    //         .sort({ createdAt: -1 })
+    //         .limit(5)
+    //         .lean();
+
+    //     res.json({
+    //         fullname: user.fullname,
+    //         email: user.email,
+    //         recentRides,
+    //     });
+    // } catch (error) {
+    //     console.error('Profile error:', error);
+    //     res.status(500).json({ message: 'Server error.' });
+    // }
+
+
     try {
         const { email } = req.body;
-        if (!email) {
-            return res.status(400).json({ message: 'Email required.' });
-        }
 
-        // Don't use .lean() here to make sure password is included
         const user = await userModel.findOne({ email });
         if (!user) {
-            return res.status(401).json({ message: 'Invalid email' });
+            return res.render('user_profile', { user: null, message: "User not found" });
         }
 
         const recentRides = await rideModel.find({ user: user._id })
@@ -82,14 +136,16 @@ const userProfile = async (req, res, next) => {
             .limit(5)
             .lean();
 
-        res.json({
-            fullname: user.fullname,
-            email: user.email,
-            recentRides,
+        res.render('user_profile', {
+            user: {
+                fullname: user.fullname,
+                email: user.email,
+                recentRides
+            }
         });
-    } catch (error) {
-        console.error('Profile error:', error);
-        res.status(500).json({ message: 'Server error.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).render('user_profile', { user: null, message: "Server error" });
     }
 
 
